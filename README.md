@@ -171,11 +171,31 @@ codeguard/
 
 ## Installation
 
-```bash
-npx skills add <your-github-username>/codeguard
+### One-Line Install (Recommended)
+
+**Windows (PowerShell):**
+```powershell
+powershell -ExecutionPolicy Bypass -Command "iwr -useb https://raw.githubusercontent.com/yousefabdallah171/code-quality-reviewer/main/install.ps1 | iex"
 ```
 
-After installation, start a new agent session so the skill files are picked up.
+**Mac / Linux:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/yousefabdallah171/code-quality-reviewer/main/install.sh | bash
+```
+
+This installs all 3 skills (`codeguard`, `feature-build`, `feature-review`) in one command.
+
+### Manual Install
+
+If you prefer to install manually, run all 3 commands:
+
+```bash
+npx skills add yousefabdallah171/code-quality-reviewer
+npx skills add yousefabdallah171/code-quality-reviewer/feature-build
+npx skills add yousefabdallah171/code-quality-reviewer/feature-review
+```
+
+After installation, **restart your Claude Code session** so the skill files are picked up.
 
 ---
 

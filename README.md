@@ -171,7 +171,17 @@ codeguard/
 
 ## Installation
 
-### One-Line Install (Recommended)
+### One Command (Recommended)
+
+```bash
+npx skills add yousefabdallah171/code-quality-reviewer
+```
+
+That's it. The postinstall script automatically registers `/feature-build` and `/feature-review` as separate skills.
+
+**Restart Claude Code** after installing so the skills are picked up.
+
+### Alternative: Shell Script Install
 
 **Windows (PowerShell):**
 ```powershell
@@ -182,20 +192,6 @@ powershell -ExecutionPolicy Bypass -Command "iwr -useb https://raw.githubusercon
 ```bash
 curl -fsSL https://raw.githubusercontent.com/yousefabdallah171/code-quality-reviewer/main/install.sh | bash
 ```
-
-This installs all 3 skills (`codeguard`, `feature-build`, `feature-review`) in one command.
-
-### Manual Install
-
-If you prefer to install manually, run all 3 commands:
-
-```bash
-npx skills add yousefabdallah171/code-quality-reviewer
-npx skills add yousefabdallah171/code-quality-reviewer/feature-build
-npx skills add yousefabdallah171/code-quality-reviewer/feature-review
-```
-
-After installation, **restart your Claude Code session** so the skill files are picked up.
 
 ---
 

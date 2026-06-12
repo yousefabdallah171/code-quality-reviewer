@@ -1,0 +1,10 @@
+{
+  "name": "code-quality-reviewer",
+  "version": "1.0.0",
+  "description": "Codeguard — spec-driven code quality skill for Claude Code and Codex",
+  "scripts": {
+    "postinstall": "node scripts/postinstall.js"
+  },
+  "license": "MIT",
+  "author": "Yousef Abdallah"
+}

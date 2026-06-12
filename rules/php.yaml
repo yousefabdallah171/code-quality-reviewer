@@ -1,0 +1,45 @@
+name: php
+description: PHP anti-patterns and code smells
+
+patterns:
+  sql_concat:
+    pattern: '(?:\$\w+\s*\.\s*[''"](?:SELECT|INSERT|UPDATE|DELETE|WHERE))|(?:query\s*\(\s*[''"].*\$)'
+    severity: critical
+    message: SQL built with string concatenation. SQL injection risk.
+    fix: Use prepared statements with PDO or Eloquent.
+    extensions: [.php]
+
+  extract_usage:
+    pattern: '\bextract\s*\('
+    severity: warning
+    message: extract() creates variables from user input. Security risk.
+    fix: Access array values directly.
+    extensions: [.php]
+
+  error_display:
+    pattern: '(?:display_errors|error_reporting\s*\(\s*E_ALL\s*\))'
+    severity: warning
+    message: Error display enabled. Leaks server info in production.
+    fix: Disable display_errors in production. Log errors instead.
+    extensions: [.php]
+
+  md5_password:
+    pattern: 'md5\s*\(\s*\$.*(?:pass|pwd)'
+    severity: critical
+    message: MD5 for password hashing is cryptographically broken.
+    fix: Use password_hash() with PASSWORD_BCRYPT or PASSWORD_ARGON2ID.
+    extensions: [.php]
+
+  eval_usage:
+    pattern: '\beval\s*\('
+    severity: critical
+    message: eval() is a code injection risk.
+    fix: Remove eval. Use a safe alternative.
+    extensions: [.php]
+
+  serialize_user_data:
+    pattern: 'unserialize\s*\(\s*\$_(GET|POST|REQUEST|COOKIE)'
+    severity: critical
+    message: Unserializing user input. Object injection vulnerability.
+    fix: Use json_decode() instead of unserialize() for user data.
+    extensions: [.php]

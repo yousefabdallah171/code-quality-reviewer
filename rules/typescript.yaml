@@ -1,0 +1,32 @@
+name: typescript
+description: TypeScript-specific anti-patterns (extends javascript rules)
+extends: javascript
+
+patterns:
+  any_type:
+    pattern: ':\s*any\b'
+    severity: warning
+    message: "TypeScript 'any' type defeats type safety."
+    fix: Use a specific type, unknown, or a generic.
+    extensions: [.ts, .tsx]
+
+  ts_ignore:
+    pattern: '@ts-ignore|@ts-nocheck|@ts-expect-error'
+    severity: warning
+    message: TypeScript error suppression found.
+    fix: Fix the underlying type error instead of suppressing.
+    extensions: [.ts, .tsx]
+
+  non_null_assertion:
+    pattern: '\w+!\.'
+    severity: info
+    message: Non-null assertion operator (!). May hide runtime null errors.
+    fix: Use optional chaining (?.) or add a proper null check.
+    extensions: [.ts, .tsx]
+
+  type_assertion_as_any:
+    pattern: 'as\s+any\b'
+    severity: warning
+    message: "Type assertion to 'any' defeats type safety."
+    fix: Assert to a specific type or fix the underlying type.
+    extensions: [.ts, .tsx]

@@ -1,0 +1,73 @@
+name: javascript
+description: JavaScript and TypeScript anti-patterns
+
+patterns:
+  any_type:
+    pattern: ':\s*any\b'
+    severity: warning
+    message: "TypeScript 'any' type defeats type safety."
+    fix: Use a specific type, unknown, or a generic.
+    extensions: [.ts, .tsx]
+
+  ts_ignore:
+    pattern: '@ts-ignore|@ts-nocheck|@ts-expect-error'
+    severity: warning
+    message: TypeScript error suppression found.
+    fix: Fix the underlying type error instead of suppressing.
+    extensions: [.ts, .tsx]
+
+  useeffect_no_deps:
+    pattern: 'useEffect\(\s*\(\)\s*=>\s*\{[^}]*\}\s*\)\s*;'
+    severity: warning
+    message: useEffect without dependency array runs on every render.
+    fix: "Add a dependency array. Use [] for mount-only effects."
+    extensions: [.jsx, .tsx]
+
+  index_as_key:
+    pattern: '\.map\([^)]*,?\s*(?:index|i|idx)\s*\)\s*=>[^}]*key\s*=\s*\{?\s*(?:index|i|idx)\s*\}?'
+    severity: warning
+    message: Array index used as React key. Causes re-render bugs.
+    fix: Use a stable unique ID as key.
+    extensions: [.jsx, .tsx]
+
+  sync_fs:
+    pattern: '(?:readFileSync|writeFileSync|appendFileSync|existsSync|mkdirSync)\('
+    severity: warning
+    message: Synchronous file operation blocks the event loop.
+    fix: Use async versions (readFile, writeFile) with await.
+    extensions: [.js, .ts, .mjs, .cjs]
+
+  eval_usage:
+    pattern: '\beval\s*\('
+    severity: critical
+    message: eval() is a code injection risk.
+    fix: Remove eval. Use JSON.parse or a safe alternative.
+    extensions: [.js, .jsx, .ts, .tsx]
+
+  innerhtml:
+    pattern: '(?:innerHTML|dangerouslySetInnerHTML|v-html)'
+    severity: warning
+    message: Direct HTML injection is an XSS risk.
+    fix: Sanitize input with DOMPurify or use safe rendering.
+    extensions: [.js, .jsx, .ts, .tsx, .vue]
+
+  fetch_no_error:
+    pattern: 'await\s+fetch\([^)]+\)\s*(?:;|\n)'
+    severity: warning
+    message: fetch() without error handling. Network errors will crash.
+    fix: Wrap in try/catch or check response.ok.
+    extensions: [.js, .jsx, .ts, .tsx]
+
+  cors_wildcard:
+    pattern: 'cors\(\s*\)'
+    severity: warning
+    message: CORS with no configuration allows all origins.
+    fix: "Specify allowed origins: cors({ origin: 'https://yourdomain.com' })"
+    extensions: [.js, .ts]
+
+  console_log:
+    pattern: 'console\.log\('
+    severity: info
+    message: console.log leftover. Remove before production.
+    fix: Remove or replace with a structured logger.
+    extensions: [.js, .jsx, .ts, .tsx]

@@ -1,0 +1,38 @@
+name: java
+description: Java anti-patterns and code smells
+
+patterns:
+  catch_exception:
+    pattern: 'catch\s*\(\s*Exception\s+'
+    severity: warning
+    message: Catching generic Exception hides specific errors.
+    fix: Catch specific exception types.
+    extensions: [.java]
+
+  system_out:
+    pattern: 'System\.out\.print'
+    severity: info
+    message: System.out.println in production code. Use a logger.
+    fix: Use SLF4J/Logback or java.util.logging.
+    extensions: [.java]
+
+  string_concat_loop:
+    pattern: 'for\s*\([^)]*\)\s*\{[^}]*\+='
+    severity: info
+    message: String concatenation in loop. Use StringBuilder.
+    fix: Use StringBuilder.append() inside loops.
+    extensions: [.java]
+
+  sql_concat:
+    pattern: '"SELECT.*"\s*\+'
+    severity: critical
+    message: SQL built with string concatenation. SQL injection risk.
+    fix: Use PreparedStatement with parameterized queries.
+    extensions: [.java]
+
+  empty_catch:
+    pattern: 'catch\s*\([^)]+\)\s*\{\s*\}'
+    severity: warning
+    message: Empty catch block silently swallows errors.
+    fix: At minimum, log the exception.
+    extensions: [.java]

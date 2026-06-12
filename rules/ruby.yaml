@@ -1,0 +1,38 @@
+name: ruby
+description: Ruby anti-patterns and code smells
+
+patterns:
+  mass_assignment:
+    pattern: 'params\.permit!'
+    severity: critical
+    message: "permit! allows all params. Mass assignment vulnerability."
+    fix: "Whitelist specific params: permit(:name, :email)."
+    extensions: [.rb]
+
+  raw_sql:
+    pattern: '(?:execute|find_by_sql|where)\s*\(\s*[''"].*#\{'
+    severity: critical
+    message: SQL with string interpolation. SQL injection risk.
+    fix: "Use parameterized queries: where('name = ?', name)."
+    extensions: [.rb]
+
+  eval_usage:
+    pattern: '\beval\s*\('
+    severity: critical
+    message: eval() is a code injection risk.
+    fix: Remove eval. Use a safe alternative.
+    extensions: [.rb]
+
+  puts_in_production:
+    pattern: '\bputs\s+'
+    severity: info
+    message: puts in production code. Use Rails.logger.
+    fix: Use Rails.logger.info or a structured logger.
+    extensions: [.rb]
+
+  rescue_exception:
+    pattern: 'rescue\s+Exception\b'
+    severity: warning
+    message: "Rescuing Exception catches everything including SignalException."
+    fix: "Use rescue StandardError instead."
+    extensions: [.rb]

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Feature Review"
+  short_description: "Review and improve existing features with quality analysis"
+  default_prompt: "Use $feature-review to run the Detection Layer, audit the existing feature, fix issues, add tests, and produce a report."

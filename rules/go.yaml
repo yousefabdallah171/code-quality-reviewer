@@ -1,0 +1,38 @@
+name: go
+description: Go anti-patterns and code smells
+
+patterns:
+  unchecked_error:
+    pattern: '\w+,\s*_\s*:?=\s*\w+\.\w+\('
+    severity: warning
+    message: Error return value discarded with _.
+    fix: Handle errors explicitly. At minimum, log them.
+    extensions: [.go]
+
+  goroutine_no_recover:
+    pattern: 'go\s+func\s*\([^)]*\)\s*\{'
+    severity: warning
+    message: Goroutine without visible recover. Panics will crash the program.
+    fix: Add defer/recover at the top of goroutine functions.
+    extensions: [.go]
+
+  fmt_in_production:
+    pattern: 'fmt\.Print'
+    severity: info
+    message: fmt.Print in production code. Use a structured logger.
+    fix: Use log/slog or a structured logging library.
+    extensions: [.go]
+
+  init_function:
+    pattern: 'func\s+init\(\)'
+    severity: info
+    message: init() functions make testing harder and create hidden dependencies.
+    fix: Use explicit initialization where possible.
+    extensions: [.go]
+
+  panic_in_library:
+    pattern: '\bpanic\('
+    severity: warning
+    message: panic() in library code. Libraries should return errors, not panic.
+    fix: Return an error instead of panicking.
+    extensions: [.go]

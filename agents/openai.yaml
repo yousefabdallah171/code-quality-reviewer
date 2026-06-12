@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codeguard"
+  short_description: "Spec-driven code quality guardian with codeguard-scan and codeguard-review"
+  default_prompt: "Use $codeguard to route this code quality task, then continue with either $codeguard-scan for full project audit or $codeguard-review for pre-build feature review."

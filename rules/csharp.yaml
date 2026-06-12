@@ -1,0 +1,38 @@
+name: csharp
+description: "C# anti-patterns and code smells"
+
+patterns:
+  catch_exception:
+    pattern: 'catch\s*\(\s*Exception\b'
+    severity: warning
+    message: Catching generic Exception hides specific errors.
+    fix: Catch specific exception types.
+    extensions: [.cs]
+
+  empty_catch:
+    pattern: 'catch\s*(?:\([^)]*\))?\s*\{\s*\}'
+    severity: warning
+    message: Empty catch block silently swallows errors.
+    fix: At minimum, log the exception.
+    extensions: [.cs]
+
+  console_write:
+    pattern: 'Console\.Write'
+    severity: info
+    message: Console.Write in production. Use ILogger.
+    fix: Use ILogger or Serilog for structured logging.
+    extensions: [.cs]
+
+  sql_concat:
+    pattern: '"SELECT.*"\s*\+'
+    severity: critical
+    message: SQL built with string concatenation. SQL injection risk.
+    fix: Use parameterized queries with SqlParameter.
+    extensions: [.cs]
+
+  async_void:
+    pattern: 'async\s+void\s+'
+    severity: warning
+    message: async void methods cannot be awaited and swallow exceptions.
+    fix: "Use async Task instead of async void (except event handlers)."
+    extensions: [.cs]

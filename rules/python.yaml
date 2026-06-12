@@ -1,0 +1,59 @@
+name: python
+description: Python anti-patterns and code smells
+
+patterns:
+  bare_except:
+    pattern: 'except\s*:'
+    severity: warning
+    message: Bare except catches everything including SystemExit and KeyboardInterrupt.
+    fix: "Use except Exception: or catch specific exceptions."
+    extensions: [.py]
+
+  mutable_default:
+    pattern: 'def\s+\w+\([^)]*(?:=\s*\[\]|=\s*\{\}|=\s*set\(\))'
+    severity: warning
+    message: Mutable default argument. Shared across calls.
+    fix: Use None as default and create inside the function.
+    extensions: [.py]
+
+  star_import:
+    pattern: 'from\s+\S+\s+import\s+\*'
+    severity: warning
+    message: Star import pollutes namespace and hides dependencies.
+    fix: Import specific names.
+    extensions: [.py]
+
+  sql_string_format:
+    pattern: '(?:execute|cursor\.execute)\s*\(\s*f?[''"]+.*\{.*\}'
+    severity: critical
+    message: SQL query built with string formatting. SQL injection risk.
+    fix: Use parameterized queries with placeholders.
+    extensions: [.py]
+
+  global_state:
+    pattern: '^\s*global\s+\w+'
+    severity: warning
+    message: Global keyword usage. Makes code harder to test.
+    fix: Pass state as function parameters or use dependency injection.
+    extensions: [.py]
+
+  sync_sleep:
+    pattern: 'time\.sleep\('
+    severity: info
+    message: time.sleep blocks the thread. Use asyncio.sleep in async code.
+    fix: Use asyncio.sleep() in async contexts.
+    extensions: [.py]
+
+  no_type_hints:
+    pattern: 'def\s+\w+\(\s*self\s*,\s*\w+\s*(?:,\s*\w+\s*)*\)\s*:'
+    severity: info
+    message: Function parameters without type hints.
+    fix: Add type hints for better IDE support and documentation.
+    extensions: [.py]
+
+  assert_in_production:
+    pattern: '^\s*assert\s+'
+    severity: info
+    message: assert statements are stripped with -O flag. Use proper validation.
+    fix: Use if/raise for production validation.
+    extensions: [.py]

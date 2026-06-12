@@ -1,0 +1,39 @@
+name: general
+description: Cross-language anti-patterns and code smells
+
+patterns:
+  hardcoded_secret:
+    pattern: '(?:api[_-]?key|password|secret|token|auth|credential)\s*[:=]\s*[''"][A-Za-z0-9+/=_\-]{16,}[''"]'
+    severity: critical
+    message: Hardcoded secret or API key detected. Use environment variables.
+    fix: Move to .env file and load via process.env or os.environ.
+
+  exposed_env_in_client:
+    pattern: '(?:NEXT_PUBLIC|VITE|REACT_APP)_.*?(?:SECRET|KEY|TOKEN|PASSWORD)'
+    severity: critical
+    message: Secret exposed to client via public env prefix.
+    fix: Remove SECRET/KEY/TOKEN from client-exposed env vars. Use server-side API routes.
+
+  debug_leftover:
+    pattern: '(?:debugger;|import\s+pdb|pdb\.set_trace|breakpoint\(\)|dd\(|var_dump\(|dump\(|print_r\()'
+    severity: warning
+    message: Debug statement leftover detected.
+    fix: Remove debug statements before committing.
+
+  todo_fixme:
+    pattern: '(?:TODO|FIXME|HACK|XXX|TEMP|TEMPORARY)\b'
+    severity: info
+    message: TODO/FIXME marker found. Track these.
+    fix: Resolve or create an issue to track it.
+
+  magic_number:
+    pattern: '(?:if|while|for|return|==|!=|>=|<=|>|<)\s*(?:\d{3,})\b'
+    severity: info
+    message: Magic number detected. Use named constants.
+    fix: Extract to a named constant with clear meaning.
+
+  deep_nesting:
+    pattern: '(?:^\s{16,}(?:if|for|while|switch|match))'
+    severity: warning
+    message: Deeply nested code (4+ levels). Refactor for readability.
+    fix: Extract inner blocks to functions. Use early returns or guard clauses.

@@ -1,0 +1,38 @@
+name: rust
+description: Rust anti-patterns and code smells
+
+patterns:
+  unwrap_usage:
+    pattern: '\.unwrap\(\)'
+    severity: warning
+    message: ".unwrap() panics on None/Err. Use ? operator or handle the error."
+    fix: "Use ? for propagation, or .unwrap_or_default() / match for handling."
+    extensions: [.rs]
+
+  expect_no_message:
+    pattern: '\.expect\(\s*""\s*\)'
+    severity: info
+    message: .expect() with empty message gives unhelpful panic output.
+    fix: Add a descriptive message explaining what went wrong.
+    extensions: [.rs]
+
+  clone_overuse:
+    pattern: '\.clone\(\)'
+    severity: info
+    message: Excessive .clone() may indicate ownership issues. Review if needed.
+    fix: Use references (&) where possible instead of cloning.
+    extensions: [.rs]
+
+  unsafe_block:
+    pattern: 'unsafe\s*\{'
+    severity: warning
+    message: unsafe block found. Verify memory safety manually.
+    fix: Minimize unsafe usage. Document why it is needed.
+    extensions: [.rs]
+
+  todo_macro:
+    pattern: 'todo!\('
+    severity: warning
+    message: "todo!() macro will panic at runtime."
+    fix: Implement the missing functionality or return an error.
+    extensions: [.rs]

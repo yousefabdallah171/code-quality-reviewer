@@ -1,0 +1,4 @@
+interface:
+  display_name: "Feature Build"
+  short_description: "Build a new feature with automatic quality gates and detection"
+  default_prompt: "Use $feature-build to run the Detection Layer, generate a plan, implement the feature with quality gates, and produce a report."
